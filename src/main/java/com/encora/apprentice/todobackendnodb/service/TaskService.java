@@ -1,20 +1,24 @@
 package com.encora.apprentice.todobackendnodb.service;
 
 import com.encora.apprentice.todobackendnodb.model.Task;
+import com.encora.apprentice.todobackendnodb.repository.InMemoryTaskRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.map.repository.config.EnableMapRepositories;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Service
-@EnableMapRepositories
 public class TaskService {
-    private final CrudRepository<Task, Long> repository;
+    @Autowired
+    private final InMemoryTaskRepository repository;
 
-    public TaskService(CrudRepository<Task, Long> repository) {
+    public TaskService(InMemoryTaskRepository repository) {
         this.repository = repository;
         this.repository.saveAll(defaultTasks());
     }
@@ -53,7 +57,7 @@ public class TaskService {
         return list;
     }
     public Optional<Task> find(Long id){
-        return repository.findById(id);
+        return Optional.ofNullable(repository.findById(id));
     }
     public Task create(Task task){
         Task copy = new Task(
@@ -63,18 +67,19 @@ public class TaskService {
                 task.getDone(),
                 task.getDoneDate(),
                 task.getPriority(),
-                task.getCreationDate()
+                LocalDateTime.now()
         );
         return repository.save(copy);
     }
     public Optional<Task> update(Long id, Task newTask){
-        return repository.findById(id)
-                .map(oldTask -> {
-                    Task updated = oldTask.updateWith(newTask);
-                    return repository.save(updated);
-                });
+        return Optional.ofNullable(repository.updateWith(newTask));
     }
-    public void delete(Long id){
-        repository.deleteById(id);
+
+    public Optional<Task> setAsDone(Long id){
+        return Optional.ofNullable(repository.setAsDone(id));
     }
+
+//    public void delete(Long id){
+//        repository.deleteById(id);
+//    }
 }

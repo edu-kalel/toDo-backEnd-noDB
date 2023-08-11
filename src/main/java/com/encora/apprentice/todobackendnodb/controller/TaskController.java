@@ -38,25 +38,24 @@ public class TaskController {
         return ResponseEntity.created(location).body(created);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/update")
     public ResponseEntity<Task> update(
             @PathVariable("id") Long id,
             @RequestBody Task updatedTask){
         Optional<Task> updated = service.update(id, updatedTask);
-        return updated
-                .map(value -> ResponseEntity.ok().body(value))
-                .orElseGet(() -> {
-                    Task created = service.create(updatedTask);
-                    URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                            .path("/{id}")
-                            .buildAndExpand(created.getId())
-                            .toUri();
-                    return ResponseEntity.created(location).body(created);
-                });
+        System.out.println("Task updated: " + updated); // Add this line
+
+        return ResponseEntity.of(updated);
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Task> delete(@PathVariable("id") Long id){
-        service.delete(id);
-        return ResponseEntity.noContent().build();
+
+    @PutMapping("/{id}/done")
+    public ResponseEntity<Task> setAsDone(@PathVariable("id") Long id){
+        System.out.println("Trying to mark task with ID " + id + " as done."); // Add this line
+
+        Optional<Task> task = service.setAsDone(id);
+        System.out.println("Task marked as done: " + task); // Add this line
+
+        return ResponseEntity.of(task);
     }
+
 }
