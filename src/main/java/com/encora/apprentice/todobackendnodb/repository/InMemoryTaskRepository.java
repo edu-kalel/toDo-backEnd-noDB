@@ -14,6 +14,31 @@ public class InMemoryTaskRepository /*extends CrudRepository<Task, Long>*/ {
     public List<Task> findAll() {
         return list;
     }
+    public List<Task> findAllByPage(int page, int tasksPerPage){
+//        int tasksPerPage = 10;
+        int startingIndex = (page*tasksPerPage)-tasksPerPage;
+        int pages = list.size()/tasksPerPage;
+        if (list.size()%tasksPerPage!=0)
+            pages++;
+        int endIndex;
+        if (pages==page) {
+            endIndex = list.size();
+        } else {
+            endIndex = startingIndex=10;
+        }
+        List<Task> sublist = list.subList(startingIndex, endIndex);
+        return sublist;
+    }
+    public int pages(int tasksPerPage){
+//        int tasksPerPage = 10;
+        int pages = list.size()/tasksPerPage;
+        if (list.size()%tasksPerPage!=0)
+            pages++;
+        return pages;
+    }
+    public Long nextId(){
+        return (long) (list.size()+1);
+    }
 
     public Task findById(Long id) {
         for (Task task : list) {
@@ -36,6 +61,7 @@ public class InMemoryTaskRepository /*extends CrudRepository<Task, Long>*/ {
                 return newTask;
             }
         }
+        newTask.setCreationDate(LocalDateTime.now());
         list.add(newTask);
         return newTask;
     }
@@ -49,6 +75,16 @@ public class InMemoryTaskRepository /*extends CrudRepository<Task, Long>*/ {
             if (list.get(i).getId().equals(id)){
                 list.get(i).setDone(true);
                 list.get(i).setDoneDate(LocalDateTime.now());
+                return list.get(i);
+            }
+        }
+        return null;
+    }
+    public Task setAsUndone(Long id){
+        for (int i=0; i<list.size(); i++){
+            if (list.get(i).getId().equals(id)){
+                list.get(i).setDone(false);
+                list.get(i).setDoneDate(null);
                 return list.get(i);
             }
         }

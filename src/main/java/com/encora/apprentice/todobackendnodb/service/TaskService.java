@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.map.repository.config.EnableMapRepositories;
 import org.springframework.stereotype.Service;
 
+import java.rmi.UnexpectedException;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
@@ -15,9 +16,10 @@ import java.util.Optional;
 
 @Service
 public class TaskService {
-    @Autowired
+//    @Autowired
     private final InMemoryTaskRepository repository;
 
+    @Autowired
     public TaskService(InMemoryTaskRepository repository) {
         this.repository = repository;
         this.repository.saveAll(defaultTasks());
@@ -56,12 +58,19 @@ public class TaskService {
         tasks.forEach(list::add);
         return list;
     }
+    public List<Task> findAllByPage(int page){
+//        List<Task> list = new ArrayList<>();
+//        Iterable<Task> tasks = repository.findAllByPage(page, 10);
+//        tasks.forEach(list::add);
+        return repository.findAllByPage(page, 10);
+    }
     public Optional<Task> find(Long id){
         return Optional.ofNullable(repository.findById(id));
     }
     public Task create(Task task){
+        Long nextId = repository.nextId();
         Task copy = new Task(
-                new Date().getTime(),
+                nextId,
                 task.getText(),
                 task.getDueDate(),
                 task.getDone(),
@@ -77,6 +86,9 @@ public class TaskService {
 
     public Optional<Task> setAsDone(Long id){
         return Optional.ofNullable(repository.setAsDone(id));
+    }
+    public Optional<Task> setAsUndone(Long id){
+        return Optional.ofNullable(repository.setAsUndone(id));
     }
 
 //    public void delete(Long id){

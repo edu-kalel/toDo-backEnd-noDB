@@ -80,6 +80,17 @@ public class Task {
     public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
+//    public Task updateWith(Task task){
+//        return new Task(
+//                this.id,
+//                task.text,
+//                task.dueDate,
+//                task.done,
+//                task.doneDate,
+//                task.priority,
+//                task.creationDate
+//        );
+//    }
 
     @Override
     public String toString() {
