@@ -2,12 +2,9 @@ package com.encora.apprentice.todobackendnodb.controller;
 
 import com.encora.apprentice.todobackendnodb.model.Task;
 import com.encora.apprentice.todobackendnodb.service.TaskService;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;

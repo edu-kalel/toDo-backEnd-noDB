@@ -81,6 +81,7 @@ public class TaskService {
         return repository.save(copy);
     }
     public Optional<Task> update(Long id, Task newTask){
+        newTask.setId(id);
         return Optional.ofNullable(repository.updateWith(newTask));
     }
 

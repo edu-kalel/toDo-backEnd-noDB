@@ -24,7 +24,7 @@ public class InMemoryTaskRepository /*extends CrudRepository<Task, Long>*/ {
         if (pages==page) {
             endIndex = list.size();
         } else {
-            endIndex = startingIndex=10;
+            endIndex = startingIndex+10;
         }
         List<Task> sublist = list.subList(startingIndex, endIndex);
         return sublist;
@@ -57,6 +57,7 @@ public class InMemoryTaskRepository /*extends CrudRepository<Task, Long>*/ {
     public Task updateWith(Task newTask) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getId().equals(newTask.getId())) {
+                newTask.setCreationDate(list.get(i).getCreationDate());
                 list.set(i, newTask);
                 return newTask;
             }
