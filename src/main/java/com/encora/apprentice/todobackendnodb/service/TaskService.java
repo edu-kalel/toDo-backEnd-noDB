@@ -3,14 +3,11 @@ package com.encora.apprentice.todobackendnodb.service;
 import com.encora.apprentice.todobackendnodb.model.Task;
 import com.encora.apprentice.todobackendnodb.repository.InMemoryTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.map.repository.config.EnableMapRepositories;
 import org.springframework.stereotype.Service;
 
-import java.rmi.UnexpectedException;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +28,7 @@ public class TaskService {
                         LocalDateTime.of(2023, Month.AUGUST, 20, 12, 00),
                         false,
                         null,
-                        1,
+                        2,
                         LocalDateTime.now()
                         ),
                 new Task(2L,
@@ -39,7 +36,7 @@ public class TaskService {
                         LocalDateTime.of(2023, Month.AUGUST, 24, 12, 00),
                         false,
                         null,
-                        1,
+                        3,
                         LocalDateTime.now()
                 ),
                 new Task(3L,
