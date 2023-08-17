@@ -70,7 +70,7 @@ public class TaskService {
                 nextId,
                 task.getText(),
                 task.getDueDate(),
-                task.getDone(),
+                false,
                 task.getDoneDate(),
                 task.getPriority(),
                 LocalDateTime.now()
